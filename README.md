@@ -5,7 +5,7 @@ LaTeX notes of CMF lectures prepared collectively by over 140 students. To be re
 
 Name of pdf and source **must** have the following template.
 
-`Week + '_' + lecture name from post in &#35;general`
+`Week` + `_` + `lecture name from post in **general**`
 
 Example:
 
