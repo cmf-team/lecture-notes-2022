@@ -1,0 +1,41 @@
+<svg width="240" height="45" xmlns="http://www.w3.org/2000/svg" stroke="null">
+ <g stroke="null">
+  <title stroke="null">Layer 1</title>
+  <line stroke="#000" fill="none" x1="14.20773" y1="13.13444" x2="223.32018" y2="13.13444" id="svg_1" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <path transform="rotate(90 226.128 12.9921)" fill="#000000" stroke="#000" d="m222.66842,16.02119l3.46153,-6.05768l3.46153,6.05768l-6.92306,0z" id="svg_3"/>
+  <line fill="none" stroke="#000" x1="24.5526" y1="19.105" x2="24.5526" y2="6.96083" id="svg_9"/>
+  <line fill="none" stroke="#000" x1="37.94545" y1="16.26124" x2="37.94545" y2="10.01124" id="svg_11"/>
+  <line fill="none" stroke="#000" x1="51.24819" y1="16.26124" x2="51.24819" y2="10.01124" id="svg_23"/>
+  <line fill="none" stroke="#000" x1="64.55093" y1="16.26124" x2="64.55093" y2="10.01124" id="svg_25"/>
+  <line fill="none" stroke="#000" x1="77.85366" y1="16.26124" x2="77.85366" y2="10.01124" id="svg_27"/>
+  <line fill="none" stroke="#000" x1="91.1564" y1="16.26124" x2="91.1564" y2="10.01124" id="svg_28"/>
+  <line fill="none" stroke="#000" x1="104.45914" y1="16.26124" x2="104.45914" y2="10.01124" id="svg_30"/>
+  <line fill="none" stroke="#000" x1="117.76187" y1="16.26124" x2="117.76187" y2="10.01124" id="svg_31"/>
+  <line fill="none" stroke="#000" x1="131.06461" y1="16.26124" x2="131.06461" y2="10.01124" id="svg_32"/>
+  <line fill="none" stroke="#000" x1="144.36735" y1="16.26124" x2="144.36735" y2="10.01124" id="svg_33"/>
+  <line fill="none" stroke="#000" x1="157.61772" y1="16.26124" x2="157.61772" y2="10.01124" id="svg_35"/>
+  <line fill="none" stroke="#000" x1="170.92045" y1="16.26124" x2="170.92045" y2="10.01124" id="svg_36"/>
+  <line fill="none" stroke="#000" x1="184.22319" y1="16.26124" x2="184.22319" y2="10.01124" id="svg_37"/>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_40" y="31.18961" x="9.25518" stroke="#000" fill="#000000">= 0</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_41" y="29.12776" x="182.65087" stroke="#000" fill="#000000">t</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_42" y="24.71599" x="230.93518" stroke="#000" fill="#000000">t'</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" id="svg_48" y="33.32608" x="104.88855" stroke-width="0" stroke="#000" fill="#000000">Δt =</text>
+  <g id="svg_53">
+   <line stroke="#000" fill="none" x1="104.56232" y1="21.00067" x2="104.56232" y2="17.79945" id="svg_50"/>
+   <line stroke="#000" fill="none" x1="117.67209" y1="21.00067" x2="117.67209" y2="17.79945" id="svg_52"/>
+  </g>
+  <line stroke="#000" id="svg_56" y2="20.55637" x2="117.86614" y1="20.55637" x1="104.14315" fill="none"/>
+  <path stroke-width="0" id="svg_57" d="m51.57061,36.4156l1.43369,-3.94265l1.43369,3.94265l-2.86738,0z" stroke="#000" fill="none"/>
+  <path transform="rotate(-180 110.879 21.6941)" id="svg_62" d="m110.13351,22.34664l0.745,-1.30375l0.745,1.30375l-1.49,0z" stroke="#000" fill="none"/>
+  <text style="cursor: move;" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_65" y="29.12776" x="182.65087" stroke="#000" fill="#000000">t = t</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="7" stroke-width="0" id="svg_68" y="31.02808" x="207.30057" stroke="#000" fill="#000000">N</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_66" y="30.46629" x="35.88115" stroke="#000" fill="#000000">t</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="7" stroke-width="0" id="svg_67" y="32.67487" x="40.62138" stroke="#000" fill="#000000">1</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_71" y="26.84965" x="134.07283" stroke="#000" fill="#000000">t</text>
+  <line id="svg_72" y2="28.59458" x2="141.09602" y1="28.59458" x1="130.92915" stroke="#000" fill="none"/>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_73" y="39.68871" x="131.17952" stroke="#000" fill="#000000">N</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="14" stroke-width="0" id="svg_81" y="30.46629" x="0.48789" stroke="#000" fill="#000000">t</text>
+  <text stroke="#000" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="7" stroke-width="0" id="svg_82" y="32.67487" x="5.22812" fill="#000000">0</text>
+ </g>
+
+</svg>
