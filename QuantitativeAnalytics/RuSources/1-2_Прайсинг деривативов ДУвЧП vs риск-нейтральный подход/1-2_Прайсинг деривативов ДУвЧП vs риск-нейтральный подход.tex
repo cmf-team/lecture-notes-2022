@@ -1,0 +1,325 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+
+%графика
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+
+\usepackage{tcolorbox}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fixltx2e}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\usepackage{geometry}
+\geometry{left=25mm,right=25mm,
+ top=25mm,bottom=25mm}
+
+\title{Quantitative Analytics.\\
+Lectures. Week 1. \\
+Derivatives Pricing: PDE vs. Risk-Neutral Approach.}
+\author{Zabello Maria}
+
+% Колонтитулы
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{indentfirst}
+\renewcommand{\headrulewidth}{0.1mm}  
+\renewcommand{\footrulewidth}{0.1mm}
+\lfoot{}
+\rfoot{\thepage}
+\cfoot{}
+\rhead{CMF-2022}
+\chead{}
+\setlength{\parindent}{1em}
+\begin{document}
+\maketitle
+
+% Оглавление
+\setcounter{tocdepth}{1} % {2} - в оглавлении участвуют chapter, section и subsection. {1} - только chapter и section
+\renewcommand\contentsname{Contents}
+\tableofcontents
+\newpage
+
+% \section{Dictionary, Definitions, Abbreviations}
+
+% \subsection{Dictionary}
+% \begin{itemize}
+%     \item IR - Interest rate - процентная ставка.
+%     \item Compounding - платежи (idk)
+% \end{itemize}
+
+% \subsection{Definitions and Abbreviations}
+% \begin{itemize}
+%     \item SAR - Stated annual rate.
+%     \item EAR - Effective annual rate.
+%     \item FoC - Frequency of Compounding
+%     \item PMT - Payment
+%     \item r - Interest rate (at the moment). 
+% \end{itemize}
+
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\renewcommand{\figurename}{Fig.}
+
+ \section{Повестка дня}
+ \begin{itemize}
+     \item Math needed for risk-neutral pricing. 
+     \item Main results of the risk-neutral approach.
+ \end{itemize}
+
+Мы посмотрим с Вами на два подхода: это на риск-нейтральный прайсинг и на основные результаты без вывода теорем - просто формулировки, но чтобы у Вас было полное представление о том, как можно прайсить дериватив. Это я уже повторяю раз, наверно, десятый, мы так никак не можем дойти до математики. 
+ \begin{itemize}
+     \item Main results of the PDE approach.
+ \end{itemize}
+
+Потом посмотрим на основные результаты подхода, основанного на уравнениях в частных производных: все, что касается Блэка-Шоулза. Быстро выведем его, быстро посмотрим, на чем он основывается, как его можно улучшить, где косяки, и сравним, собственно, два подохда.
+ \begin{itemize}
+     \item Greek coefficients. Estimation techniques.
+ \end{itemize}
+ 
+ В конце поговорим про оценку греков и три основных способа, как их можно оценить.
+ 
+\section{Риск-нейтральный прайсинг}
+\subsection{Первая фундаментальная теорема}
+~Итак, обозначим за \(X\left(t\right) = (\left(X_1(t), ..., X_p(t)\right))^T\) ценовой процесс. Пусть в нашей экономике существует p активов  (самый базовый пример: у нас есть что-то безрисковое - его можно как \(X_1\) смотреть и простейший случай - опцион на акцию - \(X_2\) обозначает цену акции).
+
+Строго положительный процесс Ито, который мы будем использовать для дисконтирования наших цен на активы, мы будем называть дефлятором.
+
+За дефлятор обозначим \(D\left(t\right)\), а также наш дисконтированный процесс цены
+\(X^D\left(t\right) = \left(\dfrac{X_1\left(t\right)}{D\left(t\right)}, \ldots, \dfrac{X_P\left(t\right)}{D\left(t\right)}\right)^T\), то есть кажый актив (независимо от того, безрисковый актив или цена) мы поделим на \(D\left(t\right)\).
+
+Будем говорить, что мера \(\mathbb{Q}\) является эквиввалентной мартинглаьной мерой, если порожденный дефлятором \(D\left(t\right)\) процесс \(X^D\left(t\right)\) является мартингалом относительно меры \(\mathbb{Q}\) (или \(\mathbb{Q}\)-мартингалом).
+
+\underlineЗамечание. Мы работаем на одном и том же вероятностном пространстве, поэтому меры должны быть эквивалентными, то есть для любой пары таких мер одна мера абсолютно непрерывна относительно другой.
+\newline
+
+\underline{Теорема 1.1(Достаточное условие для отсутствия арбитража)} Если существует дефлятор такой, что дисконтированный процесс цен позволяет создать эквивалентную мартингальную меру (т.е. \(X^D\left(t\right)\) является мартингалом), то отсутствует арбитраж.
+\newline
+
+Замечание. Нам не нужно в таком случае каждый портфель проверять на отсутствие арбитража (арбитраж: создаем портфель, который в начальный момент ничего не стоит, а затем что-то стоит с положительной вероятностью и не стоит меньше этого). Достаточно найти такой дефлятор, чтобы ценовой процесс стал мартингалом (значит в экономике отсутствует арбитраж и все цены честные).
+
+Если дефлятор - один из \(P\) активов, мы его будем называть \textit{numeraire}.
+\subsection{Теорема Гирсанова}
+Поговорим о замене мер. У нас есть глобальная теорема. Проверка всех портфелей на  безарбитражность. Можно ли создав портфель, получить гарантированнный профит в конечный момент времени. От этой проблемы перейдем к другой. Что мы должны сделать с ценовым процессом, чтобы он позволял работать с какой-то эквивалентной мартингальной мерой? При каких условиях дефлятор действительно будет существовать? Что случится с ценовым процессом, если мы потеряем меру. Ценовой процесс, как правило, представляется в виде стохастиеского дифференциальнго уравнения. Есть случайная
+часть, которая отвечает за броуновское движение и броуновское движение живет в некотором вероятностном мире относительно своей меры. Если поменяем мир, непонятно, что случится с броуновским движением.
+
+Пусть есть две меры \(\mathbb{P}\) и \(\mathbb{P\left(\theta\right)}\). Они связаны между собой плотностями (Теорема Радона — Никодима работает в каждый момент времени, так как процессы случайные):
+
+\(\varsigma^{\theta}\left(t\right)= E_t^\mathbb{P}(\frac{d\mathbb{P(\theta)}}{d\mathbb{P}})\) (математическое ожидение по мере \(\mathbb{P}\) производной Радона — Никодима), предположим, что \(\frac{d\varsigma^{\theta}\left(t\right)}{\varsigma^{\theta}\left(t\right)} = -\theta\left(t\right)^TdW\left(t\right)\)
+
+Замечание. \(E_t^\mathbb{P}(\frac{d\mathbb{P(\theta)}}{d\mathbb{P}}) = E(\frac{d\mathbb{P(\theta)}}{d\mathbb{P}}|\mathbb{F}_t)\), где \(\mathbb{F}_t\) - элемент фильтрации в момент времени t (используется фильтрация, которая порождена броуновским движением.
+\newline
+
+\underline{Теорема 1.2(Теорема Гирсанова)} Предположим, что \(\varsigma^{\theta}\left(t\right)\) это мартингал. Тогда для всех \(t \in [0, T]\):
+
+\(W^{\theta}\left(t\right) = W\left(t\right) + \int_t^0 \theta(s)ds\), где
+ \begin{itemize}
+     \item \(W^{\theta}\left(t\right)\) - процесс броуновского движения относительно новой меры \(\mathbb{P\left(\theta\right)}\).
+     \item \(W\left(t\right)\) - процесс броуновского движения относительно старой меры.
+ \end{itemize} 
+ 
+ Применяя теорему Гирсанова мы получаем новое стохастическое уравнение для нашего ценового процесса:
+ 
+ \(dX\left(t\right) = \mu\left(t\right)dt + \sigma\left(t\right)dW\left(t\right)  \)       \Longrightarrow     \(  dX\left(t\right) = (\mu\left(t\right) - \sigma\left(t\right)\theta\left(t\right)) dt + \sigma\left(t\right)dW^\theta\left(t\right)\)
+ \newline
+ 
+ При  броуновском движении $\sigma$ как была, так и осталась, но при \(dt\) появился новый член. Значит, если подобрать такое \(\theta\left(t\right)\), чтобы множитель перед \(dt\) обнулился, то у нового ценового процесса относительно новой меры не будет дрифта. Следовательно такой процесс является мартингалом.
+ 
+\subsection{Свойство мартингала}
+ \begin{itemize}
+     \item \textit{Деривативный контракт} выплачивает в момент времени T измеримую относительно \(F_T\) случайную величину \(V(T)\), и не делает никаких платежей перед моментом Т.
+     \item Будем называть дериватив \textit{достижимым}, если существует торговая стратегия \(\varphi\) такая, что \(V(T) = \varphi\left(T\right)^TX\left(T\right) = \pi\left(T\right)\) 
+     \item Для отсутствия арбитража необходимо выполнение условия: \(V\left(t\right) = \pi\left(t\right)\) для любого \(t \in [0, T]\)
+     \item Свойство мартингала: \(\frac{V\left(t\right)}{D\left(t\right)} = {E_t}^\mathbb{Q}(\frac{V\left(t\right)}{D\left(t\right)})\) (математическое ожидание относительно новой меры \(\mathbb{Q}\) от дисконтированного дериватива в момент экспирации)
+ \end{itemize} 
+ 
+ \underline{Теорема 1.3} Если нет арбитражных возможностей, рынок будет являться полным тогда и только тогда, когда мартингальная мера существует и единственная.
+ \section{PDE(partial differential equation) approach}
+ \subsection{Предположения, лежащие в основе модели BS}
+ \begin{itemize}
+     \item Можем хеджировать постоянно
+     \item Нет транзакционных издержек
+     \item Волатильность - константа
+     \item Отсутствуют арбитражные возможности
+     \item Underlying логнормально распределен
+     \item Нет проблем в том, чтобы занять или продать акцию
+ \end{itemize} 
+\subsection{Уравнение BS}
+\(dV = (\frac{\partial V}{\partial t} + \frac{\partial V}{\partial S}\mu S + \frac{1}{2} \frac{\partial^2 V}{\partial S^2}\sigma^2 S^2)dt + \frac{\partial V}{\partial S}\sigma SdW\)
+\newline
+
+Уравнение получается из уравнения цены актива \(dS = \mu Sdt+\sigma SdW\) и применения леммы Ито.
+\newline
+
+Составим портфель
+ \begin{itemize}
+     \item 1 дериватив
+     \item \(\frac{\partial V}{\partial S}\) акций
+ \end{itemize} 
+
+Стоимость портфеля в момент t:
+\newline
+
+П \( =-V + \frac{\partial V}{\partial S}S\)
+\newline
+
+Приращение стоимости портфеля:
+\newline
+
+$d$П \( =-dV + \frac{\partial V}{\partial S}dS\)
+\newline
+
+Известно, что dV и dS можно представить в виде:
+\newline
+
+$d$П \( =(-\frac{\partial V}{\partial t} - \frac{1}{2} \frac{\partial^2 V}{\partial S^2}\sigma^2 S^2)dt\)
+\newline
+
+Нет рисков:
+\newline
+
+$d$П \(= r\)П\(dt\)
+\newline
+
+Получим формулу BSM:
+\[\frac{\partial V}{\partial t} + r S \frac{\partial V}{\partial S} + \frac{1}{2}\frac{\partial^2 V}{\partial S^2}\sigma^2 S^2 = rV\]
+\begin{itemize}
+
+    \item \(\theta = \frac{\partial V}{\partial t}\), Тета - частная производная стоимости опциона по времени, "time decay term". 
+    
+    \item \(\Delta = \frac{\partial V}{\partial S}\), Дельта - изменение цены опциона с изменением цены underlying актива, hedge ratio. 
+    
+    \item \(\Gamma = \frac{\partial^2 V}{\partial S^2}\), Гамма - выпуклость, производная дельты по цене underlying актива. 
+\end{itemize}
+\newline
+
+Чтобы найти цену дериватива необходимо задать граничные условия и решить уравнение. Граничные условия зависят от опциона.
+\subsection{Преимущества модели BS}
+Устойчивая модель. Уравнение легко численно решается конечно-разностными методами.
+
+Уравнение проще обобщить для:
+\begin{itemize}
+    \item Дивидендов
+    \item Нестандартных payoffs
+    \item Стохастической волатильности
+    \item Можно добавить скачки стоимости акций (процесс Пуассона)
+    \item Транзакционные издержки (будет менятся волатильность)
+    \item Стохастические процентные ставки
+\end{itemize}
+\section{Греческие коэффициенты}
+\subsection{Определение}
+Греки - набор величин, которые показывают чувствительность цены контракта к изменению параметров/переменных.
+
+Производная по параметру/переменной - \(\frac{\partial V}{\partial x}\)
+\begin{itemize}
+    \item V - цена опциона
+    \item x - параметр/переменная
+\end{itemize}
+
+Дериватив может быть смешанным или высшего порядка.
+
+В то время как цены можно посмотреть где-то на рынке, увидеть как прайсят опционы другие банки, узнать значение греков гораздо сложнее. Поэтому использование неверно посчитанных греческих коэффициентов может к привести к большим денежным потерям.
+
+\begin{itemize}
+    \item Vega - \(\frac{\partial V}{\partial \sigma}\), где \(\sigma\) - волатильность
+\end{itemize}
+
+Для оценки Веги можно продифференцировать формулу Блэка-Шоулза по волатильности и вывести явную формулу. Но что делать, если не существует решения в замкнутой форме и непонятно, как оценивать грек?
+\subsection{Техники оценки греков}
+\begin{itemize}
+    \item Конечно-разностные приближения
+    \item Pathwise Derivative method
+    \item Метод, основанный на отношении правдоподобия
+\end{itemize}
+\subsubsection{Конечно-разностные приближения}
+Существует модель, рассмотрим ее чувствительность к параметру \(\theta\) (Y - дисконтированный payoff)
+
+\[a\left(\theta\right) = E[Y\left(\theta\right)]\]
+
+Найдем $a'(\theta)$.
+
+Forward-difference estimator:
+\[\hat{\Delta}_F = \frac{Y\left(\theta + h\right) - Y\left(\theta \right)}{h}\]
+
+Разложим $a'(\theta + h)$ по Тейлору и получим смещение(так считать не стоит):
+\[E[\hat{\Delta}_F - a'\left(\theta\right)] = \frac{1}{2}a''\left(\theta\right)h + o(h)\]
+
+Попробуем улучшить оценку и избавиться от смещения.
+
+Central-difference estimator:
+\[\hat{\Delta}_C = \frac{Y\left(\theta + h\right) - Y\left(\theta - h\right)}{2h}\]
+\[Bias\left(\hat{\Delta}_C\right) = o(h)\]
+
+Чем меньше h, тем ближе мы к настоящему определению производной (предел при \(h \longrightarrow 0)\). Но при уменьшении h, мы уменьшаем смещение, но увеличеваем дисперсию.
+
+\[Var[\hat{\Delta}_F] = \frac{Var[Y\left(\theta + h\right) - Y\left(\theta \right)]}{h^2}\]
+
+Следовательно, в оценке греков методом конечно-разностных приближений всегда существует баланс между величиной смещения и дисперсии оценки.
+\subsubsection{Pathwise Derivative estimate}
+Честная производная:
+\[Y'\left(\theta\right) = \lim\limits_{h\to 0} \frac{Y\left(\theta + h\right) - Y\left(\theta \right)}{h}\]
+
+В случае, когда возможна следующая замена честная производная является несмещенной оценкой (помним, что \(E[Y\left(\theta\right)]\) - это \(a\left(\theta\right)\)):
+\[E[\frac{d}{d\theta}Y\left(\theta\right)] = \frac{d}{d\theta}E[Y\left(\theta\right)]\]
+
+Проблемы с таким методом возникают в случае, когда финальный payoff не непрерывен. То есть при разрывах метод не работает.
+
+Рассмотрим пример расчета дельты для модели Блэка-Шоулза:
+
+\[Y = e^{-rT}[S(T)-K]^+\]
+
+Y - дисконтированный payoff для call опциона
+
+\[S(T) = S(0)e^{(r-\frac{1}{2}\sigma^2)T+\sigma\sqrt{T}Z}, Z\sim N(0,1)\]
+
+Мы хотим оценить математическое ожидание производной Y по $\theta$. Помним, что нам нужно посчитать дельту(чувствительность к изменению текущего спота, то есть ищем производную по S в момент времени 0)
+
+Цепное правило для дифференцирования сложной функции:
+
+\[\frac{dY}{dS(0)} = \frac{dY}{dS(T)}\frac{dS(T)}{dS(0)}\]
+
+Первая производная:
+
+\[\frac{dY}{dS(T)} = e^{-rT}I[S(T)>K]\]
+
+Вторая производная:
+
+\[\frac{dY}{dS(0)} = e^{-rT}\frac{S(T)}{S(0)}I[S(T)>K]\]
+
+При взятии мат ожидания от \(\frac{dY}{dS(0)}\) мы получим дельту. Такой метод более актуален для более сложных продуктов.
+\subsubsection{Метод, основанный на отношении правдоподобия}
+Преимущество данного метода заключается в том, что он не требует непрерывности выплат. Это достигается за счет дисконтирования вероятностей, а не выплат.
+
+Ожидаемый дисконтированный payoff:
+\[E_\theta[Y] = E_\theta[f(X)] = \int f(x)g_\theta(x)dx\]
+
+$x$ - случайная величина
+
+$g_\theta(x)$ - плотность распределения случайной величины
+\newline
+
+Записываем определение того, что нам нужно оценить:
+\[\frac{d}{d\theta}E_\theta[Y] = \int f(x)\frac{d}{d\theta}g_\theta(x)dx\]
+
+Следовательно:
+\[\frac{d}{d\theta}E_\theta[Y] = \int f(x)\frac{\dot{g}_\theta(x)}{g_\theta(x)}g_\theta(x)dx = E_\theta[f(X)]\frac{\dot{g}_\theta(x)}{g_\theta(x)}\]
+
+От нахождения греческого коэффициенты мы перешли к нахождению математического ожидания функции $f(x)$ домноженной на отношение производной плотности по $\theta$ к плотности.
+
+Например, чтобы посчитать дельту Блэка-Шоулза придется дисконтировать логнормальную плотность $S(T)$ по $S(0)$.
+
+\end{document}
