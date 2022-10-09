@@ -1,0 +1,158 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+
+%графика
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+
+\usepackage{tcolorbox}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fixltx2e}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\usepackage{geometry}
+\geometry{left=25mm,right=25mm,
+ top=25mm,bottom=25mm}
+
+\title{Quantitative Analytics, Web3.\\
+Lectures. Week 1-2. \\
+Security Market Indices. \\
+Рыночный индекс.}
+\author{Georgii Gromov}
+
+% Колонтитулы
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.1mm}  
+\renewcommand{\footrulewidth}{0.1mm}
+\lfoot{}
+\rfoot{\thepage}
+\cfoot{}
+\rhead{CMF-2022}
+\chead{}
+
+\begin{document}
+\maketitle
+
+% Оглавление
+\setcounter{tocdepth}{1} % {2} - в оглавлении участвуют chapter, section и subsection. {1} - только chapter и section
+\renewcommand\contentsname{Contents}
+\tableofcontents
+\newpage
+
+% \section{Dictionary, Definitions, Abbreviations}
+
+% \subsection{Dictionary}
+% \begin{itemize}
+%     \item IR - Interest rate - процентная ставка.
+%     \item Compounding - платежи (idk)
+% \end{itemize}
+
+% \subsection{Definitions and Abbreviations}
+% \begin{itemize}
+%     \item SAR - Stated annual rate.
+%     \item EAR - Effective annual rate.
+%     \item FoC - Frequency of Compounding
+%     \item PMT - Payment
+%     \item r - Interest rate (at the moment). 
+% \end{itemize}
+
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\renewcommand{\figurename}{Fig.}
+
+ \section{Определение}
+ \begin{itemize}
+     \item \textbf{Рыночный индекс} - показатель который отражает доходность какого-либо класса активов определенного рынка или сегмента этого рынка, он рассчитывается на основании изменения цены какого-либо набора бумаг. \\\\
+    Например: индекс Московской биржи или индекс нефтегазовой отрасли.
+
+ \end{itemize}
+
+
+\section{Возвратный индекс (Index Return)}
+
+Есть два основных возвратных индекса: \\\\
+\textbf{Price Return Index} - отображает доходность стоимости ценных бумаг. \\\\
+\textbf{Total return index} - помимо стоимости ценных бумаг включает в себя ещё и сумму дивидендов, то есть высчитывается как Price Return + Dividends. \\\\
+\textbf{Обычно представляются Price Return индексы} \\\\
+Некоторые компании для манипуляций сравнивают свой Total Return Index с Price Return Index конкурентов.
+
+
+
+\section{Что нужно для того чтобы собрать и поддерживать индекс?}
+\emph{Индекс - интегральный показатель, который рассчитывается по ценам акций входящих в его состав, но при этом доходность каждой акции мы можем брать с разным весом.}
+\begin{enumerate}
+  \item Определить какой рынок мы хотим характеризовать.
+  \item Какие ценные бумаги мы хотим туда включить?
+  \item Какие должны быть веса отдельных ценных бумаг? (самый распространенный вариант - чем больше капитализация компании, тем больше её вес)
+  \item Как часто нужно ребалансировать индекс? (пересчитывать вес)
+  \item Как часто индекс должен пересматриваться?
+\end{enumerate}
+Иногда вводят ограничения по весу.
+
+\newpage
+
+\section{Способы взвешивания бумаг в индексе}
+Есть несколько основных способов определять вес бумаг в индексе: \\\\
+\textbf{Взвешивание по цене акции (Price-weighted)}, в этом случае индекс представляет просто арифметическое среднее всех акций. \\
+Формула  вычисления веса данного индекса:
+$$ V_{pr.w} = \frac{\sum_{ i=1}^{N} n_iP_i}{D}$$
+$D$ - корректируется с учетом разделения акций и изменений в портфеле \\\\
+\textbf{Равновесное взвешивание (Equal-weighted)}.\\
+У всех компаний в индексе будет иметься одинаковый вес.\\\\
+\textbf{Взвешивание по размеру капитализации (Value-weighted or Market-cap-weighted)}\\\\
+\textbf{Взвешивание по количеству акций в свободном обращении (Float-adjusted market-cap weighted)}. Один из примеров использования - индексы бумаг, обращающихся на определенных биржах, некоторые компании во время IPO размещают только часть акций, такой индекс как раз сделает поправку на такие ситуации.\\\\
+\textbf{Взвешивание по фундаментальным показателям (Fundamental weighted)}
+
+
+
+\section{Применения рыночного индекса}
+\begin{itemize}
+  \item Отражение настроения инвесторов
+  \item Измерение качества работы управляющего активами
+  \item Измерение средней рыночной доходности и риска
+  \item Расчёт \href{https://en.wikipedia.org/wiki/Beta_(finance)}{показателя Бета}   
+  \item Модельный портфель для индексных фондов.
+\end{itemize}
+
+
+
+\section{Какие классы индексов акций существуют}
+
+\begin{itemize}
+  \item \textbf{Широкие индексы рынка (Broad market index)}, например Willshire 5000, который включает топ 5000 американских компаний по капитализации и покрывает 99.5\% капитализации всех американских компаний торгующихся на бирже.
+  \item \textbf{Межрыночные индексы (Multi-market index)}, например MSCI World, который включает акции компаний с рынков разных стран.
+  \item \textbf{Межстрановые индексы с фундаментальными весами (Multi-market with fundamental weighting)}
+  \item \textbf{Секторальные индексы (Sector index)}, например индекс электроэнергетики.
+  \item  \textbf{Индексы по стилю (Style index)}, например индекс быстрорастущих компаний с небольшой прибылью \textbf{(Growth index)}. В противовес предыдущему классу акций - стоимостные акции, более стабильные, консервативные компании и менее быстрорастущие, но при этом платящие дивиденды и наращивающие прибыли, индекс таких акций будет называться - \textbf{(Value index)}. 
+\end{itemize}
+\newpage
+\section{Параметры индексов облигаций}
+\begin{itemize}
+  \item \textbf{Страна} (Bloomberg Barclays US Aggregate Index, Euro C-Bonds Turkey)
+  \item \textbf{Инвестиционный рейтинг} (Bloomberg Barclays US Corporate High-Yield, C-Bonds-CBI RU BB)
+  \item \textbf{Длительность} (C-bonds-CBI RU 3-5 years)
+  \item \textbf{Сектор} (S&P 500 Health Care Corporate Bond Index)
+\end{itemize}
+\section{Индексы альтернативных инвестиций}
+\begin{itemize}
+  \item \textbf{Индексы сырья}
+  \item \textbf{Индексы рынка недвижимости}
+  \item \textbf{Индексы хедж-фондов}
+\end{itemize}
+
+\end{document}

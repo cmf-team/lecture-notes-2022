@@ -1,0 +1,586 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[T2A,T1]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+
+%графика
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+\usepackage{tcolorbox}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\setlength\parindent{0pt}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usetikzlibrary{graphs}
+\pgfplotsset{compat=1.18}
+
+\usepackage{geometry}
+\geometry{left=25mm,right=25mm,
+ top=25mm,bottom=25mm}
+
+
+\title{Data Science.\\
+Lectures. Weeks 3-4. \\Обобщённый метод наименьших квадратов}
+\author{Мороз Екатерина}
+\date{}
+
+% Колонтитулы
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.1mm}  
+\renewcommand{\footrulewidth}{0.1mm}
+\lfoot{}
+\rfoot{\thepage}
+\cfoot{}
+\rhead{CMF-2022}
+\chead{}
+
+\begin{document}
+\maketitle
+
+% Оглавление
+\setcounter{tocdepth}{2} % {2} - в оглавлении участвуют chapter, section и subsection. {1} - только chapter и section
+\renewcommand\contentsname{Contents}
+\tableofcontents
+\newpage
+
+
+\section{Классическая ЛММР \texorpdfstring{\\ (Линейная модель множественной регрессии)}{}}
+Матричная форма записи:
+$Y = X \beta + \varepsilon$ \par
+$Y$ -- $n$-мерный вектор наблюдений за переменной $y$, снятых с объектов, попаших в выборку; \par
+$X$ -- матрица $(n$ x $k)$, где k - это количество регрессоров (объяcняющих переменных), включая константу, \par
+n -- объем выборки.\par
+
+\vspace{2mm}
+$X$ -- детерминированная (неслучайная) матрица: \par
+Объекты, попавшие в выборку, имеют неслучайные значения; \par
+При изменении выборки матрица $X$ не меняется, меняется только $\varepsilon$ - за счет этого будет меняться $Y$.\par
+
+\vspace{2mm}
+$E(\varepsilon) = 0$ -- случайная ошибка в среднем отсутствует (мат. ожидание равно 0)\par
+Все дисперсии случайных ошибок одинаковы: $\sigma^2$ (неизвестна)\par
+$V(\varepsilon) = E(\varepsilon\varepsilon^T)=\sigma^2I_n$ -- случайные ошибки не коррелируют. 
+
+\vspace{2mm}
+
+\begin{tcolorbox}
+
+\textbf{Ковариционная матрица вектора случайных ошибок} \\ 
+$E\varepsilon \varepsilon ^T = E \begin{pmatrix}
+\varepsilon_1 \\
+... \\
+\varepsilon_n \\
+\end{pmatrix} 
+\begin{pmatrix}
+\varepsilon_1 & ... & \varepsilon_n \\
+\end{pmatrix} = 
+\begin{pmatrix}
+E \varepsilon_i \varepsilon_j \\
+\end{pmatrix}_{i,j = 1, ... , n} = \begin{pmatrix}
+\sigma^2 & ... & 0 \\
+... & ... & ... \\
+0 & ... & \varepsilon_n \\
+\end{pmatrix} = \sigma^2I_n$ \par
+
+\vspace{1mm}
+$cov(\varepsilon_i \varepsilon_j) = E \varepsilon_i \varepsilon_j = \left\{ \begin{array}{lcl}
+\sigma^2, & i = j \\ 
+0, & i \neq j 
+\end{array}\right.$
+
+
+\end{tcolorbox}
+
+
+\subsection{Обычный метод наименьших квадратов }
+\textbf{(МНК; OLS - ordinary least squares)}
+
+\vspace{2mm}
+$\hat{\beta}_{\text{мнк}} = (X^TX)^{-1}X^TY$\par
+
+\vspace{2mm}
+
+\textbf{Теорема:}\par
+Полученные оценки являются несмещенными \par
+Вектор средних значений для $\hat{\beta}_{\text{мнк}}$: $E(\hat{\beta}_{\text{мнк}}) = \beta$\par
+
+\begin{tcolorbox}
+\textbf{Доказательство:} \par
+$\hat{\beta}_{\text{мнк}} = (X^TX)^{-1}X^T(X\beta + \epsilon) = (X^TX)^{-1}X^T\beta + (X^TX)^{-1}X^T\varepsilon = \beta + (X^TX)^{-1}X^T\varepsilon$\par
+
+\vspace{1mm}
+$E(A \xi) = AE(\xi)$
+\end{tcolorbox}
+
+\vspace{2mm}
+\textbf{Ковариационная матрица вектора} $\hat{\beta}_{\text{мнк}}$\par
+$V(\hat{\beta}_{\text{мнк}}) = \sigma^2(X^TX)^{-1}$
+
+\begin{tcolorbox}
+\textbf{Доказательство:}\par
+$V(\hat{\beta}_{\text{мнк}}) = E(\hat{\beta}_{\text{мнк}} - \beta)(\hat{\beta}_{\text{мнк}}-\beta)^T = E((X^TX)^{-1}X^T\varepsilon[(X^TX)^{-1}X^T\varepsilon]^T) =$ \par
+$ = (X^TX)^{-1}X^TE(\varepsilon \varepsilon^T)X(X^TX)^{-1} = \sigma^2(X^TX)^{-1}$
+
+\vspace{1mm}
+$(AB)^T = B^TA^T; (A^{-1})^T = (A^T)^{-1}$
+\end{tcolorbox}
+\newpage
+
+\subsection{Теорема Гаусса-Маркова для КЛММР} 
+$\hat{\beta}_{\text{мнк}}$ обладает свойством оптимальности: \par
+Если рассмотреть $K$ - класс всех оценок $\beta_j$, несмещенных и линейных по $y_1 ... y_n$, то $D\hat{\beta}_j=\min D \Tilde{\beta}$
+
+\begin{tcolorbox}
+\textbf{Доказательство:}\par
+
+\vspace{1mm}
+1) $\hat{\beta}_{\text{мнк}, j} \in K_j$ $(E\hat{\beta}_{\text{мнк}} = \beta; \hat{\beta} = (X^TX)^{-1}XY $ -- линейная функция от $Y$) \par
+
+\vspace{1mm}
+2) $\varphi_c(\beta) = c^T\beta = c_1\beta_1 + ... + c_k\beta_k$ -- параметр для оценивания\par
+$c = (c_1 ... c_k)^T, c_j = const$ (по $Y$)\par
+$K_c = \{b^TY\}$ -- класс оценок для $c^T\beta$\par
+$b \in R^n$ -- может зависеть от $X$\par
+Докажем, что $D(c^T\hat{\beta}_{\text{мнк}}) \leq D(b^TY) \forall b^TY \in K_c$\par
+
+\vspace{1mm}
+2.1) $c^T \hat{\beta}_{\text{мнк}} \in K_c:$\par
+-- $E c^T\hat{\beta} = c^T\beta$ - несмещенность\par
+-- $c^T\hat{\beta} = c^T(X^TX)^{-1}X^TY = b_0^TY$ - линейность\par
+
+\vspace{1mm}
+2.2) $D(c^T\hat{\beta}) = E(c^T\hat{\beta} - c^T\beta)^2 = E[c^T(\hat{\beta} - \beta)][...]^T = E[c^T(\hat{\beta} - \beta)(\hat{\beta} - \beta)^Tc] = $\par
+$ = c^T(E(\hat{\beta} - \beta)(\hat{\beta} - \beta)^T)c = \sigma^2c^T(X^TX)^{-1}c$ \par
+\vspace{1mm}
+$E(A \xi B) = A(E\xi B)$\par
+
+\vspace{1mm}
+3) Условие несмещенности: \par
+$E(b^TY) = E(b^T(X\beta + \varepsilon)) = b^TX\beta + b^TE\varepsilon = b^TX\beta \equiv c^T \beta \Longrightarrow b^TX = c^T$\par
+
+\vspace{1mm}
+$Ec^T \hat{\beta} = c^T \beta = B^TX\beta$
+
+\vspace{1mm}
+4) $D(b^TY) = E(b^TY-c^T\beta)^2 = E(b^T(X\beta + \varepsilon) - c^T\beta)^2 = E(b^TX\beta - c^T\beta + b^T\varepsilon)^2 = $ \par 
+$ = E(b^T\varepsilon)(b^T\varepsilon)^T = E(b^T \varepsilon \varepsilon^T b) = b^T(E\varepsilon \varepsilon^T)b = \sigma^2b^Tb \geq 0$
+\end{tcolorbox}
+
+\section{Мультиколлинеарность} 
+$\varepsilon_i$\par 
+$y_i = \beta_1 + \beta_2x_i^{(2)} + ... + \beta_kx_i^{(k)} + \varepsilon_i$, $i = 1, ... , n$\par 
+$Y = X\beta + \varepsilon$, $X - (n$ x $k)$\par 
+$E\varepsilon = O_n$, $V(\varepsilon) = \sigma^2I_n$\par 
+
+\vspace{2mm}
+Ковариационная матрица случайных ошибок является классической\par 
+МНК-оценки коэффициентов: $\hat{\beta} = (X^TX)^{-1}X^TY$\par 
+Ковариационная матрица МНК-оценок: $V(\hat{\beta}) = \sigma^2(X^TX)^{-1}$\par 
+
+\vspace{2mm}
+Мультиколлинеарность может быть полная и частичная. На практике встречается только частичная.\par 
+
+
+
+\subsection{Полная мультиколлинеарность}
+$rank X < k \Longleftrightarrow det(X^TX) = 0$, то есть столбцы матрицы связаны линейной зависимостью: \par 
+$\exists c = (c_1, ... , c_k)^T$, $c \neq O_k:
+c_1X^{(1)} + ... + c_kX^{(k)}$ или $c^TX = O^T$
+
+\vspace{2mm}
+Встречается редко, когда на этапе спецификации мы не замечаем связи между регрессорами. В таком случаем МНК не может быть реализоаван. С ней легко бороться: необходимо удалить лишние регрессоры.
+
+\subsection{Частичная (практическая) мультиколлинеарность}
+$det(X^TX) \approx 0$ \par
+Какая-то из переменных очень близка к линейной комбинации остальных.
+
+\subsection{Признаки мультиколлинеарности}
+1. Малое значение $det(X^TX)$ \par
+
+\vspace{1mm}
+2. Матрица парных коэффициентов корреляций $\hat{R} = (\hat{r}_{ij})_i,j = 1, ... , k$ содержит числа близкие к 1. Один регрессор сильно связан с другим \par
+
+\vspace{1mm}
+3. Среди коэффициентов детерминации $R^2 (x^{(j)} / X(j)), j = 1, ..., k$ одного регрессора по остальным есть близкие к 1 ($X(j)$ - набор объясняющих переменных, всех, кроме $x^{(j)}, (dimX(j) = k-1))$\par
+
+\begin{tcolorbox}
+Пояснение к п. 3: \par
+В матрице $V(\hat{\beta}) = \sigma^2(X^TX)^{-1}$ на главной диагонали стоят дисперсии \par 
+$D\hat{\beta}_j = \dfrac{\sigma^2}{n(1-R^2(x(j) / X(j))}, [s.e.(\hat{\beta}_j)]^2 = S^2_{\hat{\beta}_j} = \dfrac{\hat{\sigma^2}}{n(1-R^2 ... )}$, где $\hat{\sigma^2} = S^2 = \dfrac{ESS}{n-k}$ \par 
+s.e. - большие $\Longrightarrow t_\text{стат}$ - маленькие $\Longrightarrow$ оценки коэффициентов незначимы \par (много незначащих факторов в модели)
+\end{tcolorbox}
+
+\subsection{Последствия мультиколлинеарности}
+
+\vspace{1mm}
+-- Неустойчивость оценок коэффициентов к составу исходных данных (если в выборке изменить одну-две пары x и y, то значимые оценки могут стать незначимыми и наоборот)\par
+\begin{tcolorbox}
+Пример:$y_i = x_i + 2z_i + \varepsilon_i$\par
+Пусть $x \approx 2z$ (если $r(x,z) \approx 1)$\par
+Тогда могут быть эквивалентные представления модели:\par
+$y_i = 4z_i + \varepsilon_i'$, $y_i = -x_i + 6z_i + \varepsilon_i''$, $y_i = 5x_i + 6z_i + \varepsilon_i'''$\par
+Разные исследователи будут получать существенно разные выводы
+\end{tcolorbox}
+    
+\vspace{1mm}
+-- Знаки оценок меняются
+
+\vspace{1mm}
+-- Большие значения стандартных ошибок (дисперсий)
+
+\subsection{Как бороться с мультиколлинеарностью?}
+Три подхода:\par
+
+\vspace{1mm}
+-- Гребневая регрессия (смещенное оценивание коэффициентов)\par
+
+\vspace{1mm}
+-- Метод главных компонент (переход к некоррелированным регрессорам)\par
+
+\vspace{1mm}
+-- Снижение размерности пространства регрессоров (отбор наиболее информативных обясняющих переменных) - \textbf{самый распространенный метод}\par
+
+\subsubsection{Гребневая регрессия}
+Отказ от МНК-оценивания, переход к смещенному оцениванию коэффициентов:\par
+Вместо $\hat{\beta}_{\text{мнк}} = (X^TX)^{-1}X^TY$ вводим класс оценок $\hat{\beta}(\alpha) = (X^TX + \alpha I_k)^{-1}X^TY$\par
+В частности, $\hat{\beta}(0) = \hat{\beta}_{\text{мнк}}$ - несмещенная оценка
+
+\vspace{2mm}
+$E\hat{\beta}(\alpha) = \beta + \delta (\alpha), \delta (\alpha) \neq 0$ при $\alpha \neq 0$\par
+Утв. $\exists \alpha_0 \neq 0: E(\hat{\beta}(\alpha_0) - \beta)^2 < E(\hat{\beta}_{\text{мнк}} - \beta)^2$ - найдется $\alpha$, у которой средний квадрат отклонения меньше, чем у МНК-оценки.  \par
+
+\vspace{2mm}
+На практике $\alpha$ находят методом подбора. Чаще всего при $0,2<\alpha<0,4$ достигается минимум среднеквадратичной оценки.
+
+\subsubsection{Метод главных компонент}
+Временный переход к некоррелированным данным:\par
+1) Центрирование исходных данных \par
+$\{(y_i, x_i^{1}, ... , x_i^{k}, k = 1, ... , n \} \Longrightarrow \{(\tilde{y_i}, \tilde{x_i^{1}}, ... , \tilde{x_i^{k}}, k = 1, ... , n \}$\par
+$\tilde{y_i} = y_i - \Bar{y}, \tilde{x_i}^{(j)} = x_i^{(j)} - \Bar{x}^{(j)}$\par
+
+\vspace{1mm}
+2) Построение главных компонент для центрированных регрессоров \par
+$\tilde{x_i^{1}}, ... , \tilde{x_i^{k}} \Longrightarrow f^{(1)}, ... , f^{(k)}$ \par
+Каждая главная компонента является линейной комбинацией переменных $\tilde{x_i}^{1}, ... , \tilde{x_i}^{k}$\par
+- Все главные компоненты попарно некоррелированны\par
+- По главным комнонентам можно однозначно восстановить исходные регрессоры (и наоборот)\par
+
+\vspace{1mm}
+3) Построение регрессии $\tilde{y}$ по $f^{(1)}, ... , f^{(k)}$ \par
+$\tilde{y_i} = c_1f_i^{(1)} + ... + c_kf_i^{(k)} + \tilde{\sum_i}$ \par
+
+\vspace{1mm}
+4) Возврат к $\tilde{x_i}^{1}, ... , \tilde{x_i}^{k}$\par
+Результат: регрессия $y$ по $x_i^{1}, ... , x_i^{k}$
+
+\subsubsection{Отбор наиболее информативных регрессоров (снижение размерности)}
+- Метод пошаговой регрессии\par
+- Метод полного перебора регрессий\par
+
+\vspace{1mm}
+$p = k - 1$ -- количество структурных регрессоров (априорный набор регрессоров $x^{(2)}, ... , x^{(k)})$ \par
+Перебор моделей по числу выбранных регрессоров: $p = 1,2, ... , p$\par
+
+\vspace{1mm}
+Два варианта перебора: с увеличением и уменьшением числа объясняющих переменных\par
+
+\vspace{2mm}
+\textbf{Полный перебор с добавлением регрессоров} \par
+$p = 1: R^2(y/x^{(j)}) \longrightarrow max_{j=1,...,p} = R^2(1)$ - построение всех возможных регрессий, когда $y$ зависит только от одного $x$ \par
+
+$p = 2: R^2(y/x^{(j_1)}, x^{(j_2)}) \longrightarrow max_{j_1, j_2=1,...,p, j_1 = J-2}  = R^2(2)$ - повторение для двух $x$ и так далее\par
+
+\vspace{1mm}
+Последовательность $R^2(p)$ не убывает\par
+
+\vspace{1mm}
+Правило остановки:\par
+$(i)$ Прирост $R^2(p+1) - R^2(p)$ стал статистически незначимым\par
+$(ii)$ $R^2_{adj}$ досиг своего максимума\par
+$(iii)$ Нижняя доверительная граница для $R^2_{adj}$ достигла максимума. \textbf{Самый правильный вариант}\par
+
+\vspace{2mm}
+\textbf{Частичный перебор} \par
+Пошаговая регрессия. \par
+Отличие от полного перебора: при переходе к следующему шагу $(p+1)$ один из иксов выбирается таким, какой был на предыдущем шаге, это снижает количество переборов.\par
+
+\vspace{1mm}
+На практике отбор регрессоров происходит методом исключения незначимых переменных\par
+
+
+\section{Обобщенная ЛММР, обобщенный МНК}
+
+ $Y = X \beta + \varepsilon$ \par
+$X$ -- детерминированная $(n$ x $k), rank X = k, k<n$\par
+$E\varepsilon = O_n, V(\varepsilon) = \Omega$\par
+Техническое условие: $\Omega > 0$ -- положительная определенность\par
+
+\vspace{1mm}
+Свойства:\par
+1) $\Omega^T = \Omega$\par\par
+2) $\exists \Omega^{-1}, \Omega^{-1} > 0$\par
+3) $\exists P$ невырожденная $(n$ x $n): \Omega^{-1} = P^TP$\par
+
+\vspace{1mm}
+Два метода оценивания: МНК, ОМНК \par
+
+\subsection{МНК для КЛММР и ОЛММР}
+Критерий: $(Y - Xb)^T(Y - Xb) \longrightarrow min_b$ \par
+Оценка: $\hat{\beta}_{\text{мнк}} = (X^TX)^{-1}X^TY$ \par
+
+\vspace{1mm}
+Свойства:\par
+-- Несмещенность $E\hat{\beta}_{\text{мнк}} = \beta$ (используется только $E\varepsilon = O_n)$\par
+-- Состоятельнойсть $\frac{1}{n}X^TX \longrightarrow Q_{x^Tx} >0$\par
+-- Линейность по $Y$\par
+-- Оптимальность в случае КЛММР (теорема Гаусса-Маркова)\par
+-- Неоптимальность в случае ОЛММР\par
+
+\vspace{2mm}
+\textbf{Что делать?}\par
+Если $V(\varepsilon) = \sigma^2I_n$, то $V(\hat{\beta}_{\text{МНК}} = \sigma^2(X^TX)^{-1}$\par
+В этом случае $\hat{\sigma}^2_\text{МНК} = \dfrac{1}{n-k}(Y-X\hat{\beta}_{\text{мнк}})^T(Y-X\hat{\beta}_{\text{мнк}})$ -- несмещенная оценка для $\sigma^2$\par
+
+\vspace{2mm}
+Если $V(\varepsilon) = \Omega (\Omega > 0)$, то $V(\hat{\beta}_{\text{МНК}} = (X^TX)^{-1}X^T\Omega X(X^TX)^{-1}$\par
+
+\vspace{2mm}
+Что в случае ОЛММР оценивает формула $\hat{\sigma}^2_\text{МНК}$? Сигмы нет, формула ничего не оценивает\par
+
+\vspace{2mm}
+Надо уметь состоятельно оценивать матрицу $\Omega$\par
+
+\subsection{ОМНК для ОЛММР}
+
+(1) $Y = X\beta + \varepsilon$ -- ОЛММР
+(2) $PY = PX\beta + P\varepsilon$ -- КЛММР
+
+ОМНК для модели (1) это МНК, примененный к преобразованным данным, то есть к модели (2)\par
+
+\vspace{1mm}
+Критерий:\par
+$(PY-PXb)^T(PY-PXb) \longrightarrow min_b$\par
+$(Y-Xb)^TP^TP(Y-Xb) = (Y-Xb)^T\Omega^{-1}(Y-Xb) \longrightarrow min_b$ \par
+
+\vspace{2mm}
+Оценка:\par
+$\hat{\beta}_{\text{омнк}} = [(PX)^T(PX)]^{-1}(PX)^T(PX) = (X^T \Omega^{-1} X)^{-1} X^T \Omega^{-1} Y$\par
+
+\vspace{2mm}
+Свойства ОМНК оценок:\par
+- Несмещенность $E\hat{\beta}_{\text{омнк}} = \beta$\par
+- Состоятельность\par
+- Линейность по $Y$\par
+- Оптимальность (теорема Айткена)\par
+
+\vspace{2mm}
+$V(\hat{\beta}_{\text{омнк}}) = (X^T\Omega^{-1}X)^{-1}$\par
+
+\vspace{2mm}
+Есть ковариационная матрица $V(\varepsilon) = \Omega$
+неизвестна, \par 
+то ОМНК-оценка $\hat{\beta}_{\text{омнк}} = (X^T\Omega^{-1}X)^{-1}X^T\Omega^{-1}Y$ не реализуема
+
+\vspace{2mm}
+\textbf{Частный случай: $\Omega = \sigma^2 \Omega_0$}\par
+$\sigma^2$ -- неизвестный параметр\par
+$\Omega_0 > 0$ -- известная матрица $\exists P_0: \Omega_0^{-1} = P_0^TP_0$\par
+ 
+$\hat{\beta}_{\text{омнк}} = (X^T\Omega_0^{-1}X)^{-1}X\Omega_0^{-1}Y$ -- реализуемая оценка\par
+
+\vspace{2mm}
+Критерий: $(Y - Xb)^T\Omega_0^{-1}(Y - Xb) \longrightarrow min_b$\par
+Ковариационная матрица: $V(\hat{\beta}_{\text{омнк}}) = \sigma^2(X^T\Omega_0^{-1}X)^{-1}$
+
+\vspace{1mm}
+
+\textbf{Оценивание $\sigma^2$ в рамках ОЛММР с $V(\varepsilon) = \sigma^2\Omega_0$}
+
+Модель (2): $P_0Y = P_0X\beta + P_0\varepsilon, E(P_0\varepsilon ) = O$
+
+$V(P_0\varepsilon) = E(P_0\varepsilon)(P_0\varepsilon)^T = P_0E(\varepsilon\varepsilon^T)P_0^T = P_0\sigma^2\Omega_0P_0^T = \sigma^2P_0(P_0^TP_0)^{-1}P_0^T = \sigma^2I_n$
+
+\vspace{2mm}
+Критерий:$(P_0Y-P_0Xb)^T(P_0Y-P_0Xb) \longrightarrow min_b$
+
+\vspace{1mm}
+Оценка $\sigma^2$ \par 
+$\hat{\sigma}^2_{\text{омнк}} = \dfrac{1}{n-k}(P_0Y-P_0X\hat{\beta}_{\text{омнк}})^T(P_0Y-P_0X\hat{\beta}_{\text{омнк}}) = \dfrac{1}{n-k}(Y-X\hat{\beta}_{\text{омнк}})^T\Omega^{-1}_0(Y-X\hat{\beta}_{\text{омнк}})$
+ 
+\subsection*{Коэффициент детерминации $R^2$ в обобщенной ЛММР}
+$R^2 = 1 - \dfrac{ESS}{TSS}$
+
+$R^2 = 1 - \dfrac{(Y-X\hat{\beta}_{\text{омнк}})^T\Omega^{-1}_0(Y-X\hat{\beta}_{\text{омнк}})}{(Y-\Bar{Y}_i)^T\Omega^{-1}_0}(Y-\Bar{Y}_i)$\par 
+$R^2$ скорее всего не имеет смысла, так как в преобразованной матрице вида $PX$ столбец единиц отсутствует.
+
+ 
+\subsection{Выводы:}
+Выбор метода оценивания зависит от предпосылок модели.\par
+
+Надо максимально учитывать специфику модели, в частности, учесть характер зависимости регрессионных ошибок.\par
+
+Если мы знаем $\Omega$, то можно применить ОМНК, он даст нам лучшие несмещенные, линейные оценки.\par
+
+МНК тоже даст несмещенные, состоятельные, линейные, но не наилучшие оценки.\par
+
+\subsection{Частный случай: ЛММР с гетероскедастическими (и некоррелированными) ошибками}
+Гетероскедастичность: дисперсии случайных ошибок значительно различаются
+
+(1) $Y = X\beta + \varepsilon, V(\varepsilon) = \Omega$
+$\Omega = \begin{pmatrix}
+\sigma^2_1 & & 0\\
+& ... & \\
+0 & & \sigma^2_n \\
+\end{pmatrix}, D\varepsilon_i = \sigma^2_i \neq const $ \par 
+$\Omega^{-1} = \begin{pmatrix}
+\dfrac{1}{\sigma^2_1} & & 0\\
+& ... & \\
+0 & & \dfrac{1}{\sigma^2_n} \\
+\end{pmatrix},  P = \begin{pmatrix}
+\dfrac{1}{\sigma_1} & & 0\\
+& ... & \\
+0 & & \dfrac{1}{\sigma_n} \\
+\end{pmatrix}$ \par 
+
+\vspace{1mm}
+(1) $Y = X\beta + \varepsilon \Longrightarrow$ (2) $PY = PX\beta + P\varepsilon$
+
+\vspace{1mm}
+(1) $y_i = \beta_1x_i^{(1)} + ... + \beta_kx_i^{(k)} + \varepsilon_i$ (2) $\dfrac{y_i}{\sigma_i} = \dfrac{\beta_1x_i^{(1)}}{\sigma_i} + ... + \dfrac{\beta_kx_i^{(k)}}{\sigma_i} + \dfrac{\varepsilon_i}{\sigma_i}$
+
+ОМНК $\equiv$ ВМНК (взвешенный МНК, weight least squares)
+
+\vspace{2mm}
+Критерий: $\sum_{i = 1}^n\dfrac{1}{\sigma^2}(y_i - \beta_1x_i^{(1)} - ... - \beta_kx_i^{(k)} \longrightarrow min_b$ 
+
+\vspace{2mm}
+Суть: если $\sigma_i$ большое, то $i$-ое уравнение включается в сумму с маленьким весом 
+
+\vspace{2mm}
+Имеем $n+k$ параметров модели: \par 
+$\beta_1, ... , \beta_k $ и $\sigma^2_1, ... , \sigma^2_n$, но $n$ наблюдений $\Longrightarrow$ состоятельно оценить все (независимые) параметры нельзя
+ 
+Но если $\sigma^2_1, ... , \sigma^2_n$ выражаются через некоторое (небольшое) количество параметров, то состоятельно оценить можно 
+
+\vspace{2mm}
+\textbf{Что делать? $\Omega = diag(\sigma^2_1, ... , \sigma^2_n)$} \par 
+
+\begin{tikzpicture}
+\graph[nodes={align=center}, grow right sep, branch down sep] {
+        "$\Omega$ известна" ->  "ВМНК",
+        "$\Omega$ неизвестна" -> "Форма гетероскедастичности" -> 
+        {
+            "Известна" -> Двухшаговая процедура,
+            "Неизвестна" -> "МНК-оценки + поправки Уайта"
+        }
+    };
+    
+    \end{tikzpicture}
+
+Функциональная форма гетероскедастичности: \par 
+$\sigma^2_i = f(z_i^{(1)}, ... , z_i^{(p)})$ , где $z$ - некоторые из иксов или функции от них
+
+\newpage
+\subsubsection{Поправки Уайта}
+(ОЛММР + МНК)
+
+$\hat{\beta}_{\text{мнк}}$ - несмещенные, состоятельные (но не оптимальные оценки)\par
+$s.e. (\hat{\beta}_{j,\text{мнк}}) = \sqrt{\hat{\sigma}_{\text{мнк}}^2[(X^TX)^{-1}}$ - несостоятельные оценки\par
+$h.c.s.e.(\hat{\beta}_{j, \text{мнк}})$ стандартные ошибки, поправленные с учетом гетероскедастичности\par
+
+\vspace{2mm}
+Они являются состоятельными оценками стандартных отклонений\par
+
+\vspace{2mm}
+\textbf{Оценивание ковариационной матрицы мектора МНК-оценок $\beta$ по Уайту:}
+
+$\hat{V}(\hat{\beta}_{\text{мнк}}) = (X^TX)^{-1}XT\hat{\Omega}X(X^TX)^{-1}$
+
+где $\hat{\Omega} = diag(e^2_1, ... , e^2_n), e_i$ -- МНК-остаток
+
+$X^Tdiag(e^2_1, ... , e^2_n)X = \sum_{s = 1}^ne^2_sX_sX_s^T -- (k$ x $k)$ матрица
+
+где $X_s = (X_s^{(1)}, ... , X_s^{(k)})^T$ - $s$-я строка матрицы $X$, поставленная в столбец
+
+\subsubsection{Двухшаговая процедура оценивания параметров гетероскедастической ОЛММР}
+(1) $Y = X\beta + \epsilon, V(\varepsilon) = \Omega = diag(\sigma^2_1, ... , \sigma^2_n)$ \par
+
+Постулируем линейную форму гетероскедастичности:\par
+$\sigma^2_i = \gamma_0 + \gamma_1z_i^{(1)} + ... + \gamma_pz_i^{(p)} = \gamma_0 + Z_i\gamma$
+(пусть это истинная, правильно угаданная форма)
+
+\vspace{2mm}
+\textbf{Шаг 1.} Применение классического МНК\par
+1) МНК (1), получаем остатки и оценку: $\hat{\beta}, e_1, ... , e_n \Longrightarrow e^2_i$ \par
+2) Оцениваем вспомогательную регрессию\par
+$e_i^2 = \gamma_0 + Z_i^T\gamma + \text{ошибка}$\par
+МНК $\Longrightarrow \hat{\gamma}_0, \hat{\gamma}$\par
+Доказанный факт: $ \hat{\gamma}_0, \hat{\gamma}$ оценки состоятельны\par
+3) получаем окончательные оценки для $\sigma^2$: 
+$\hat{\sigma}^2_i = \hat{\gamma}_0 + Z^T_i\hat{\gamma}$ 
+
+\vspace{2mm}
+\textbf{Шаг 2.} Оценка $\beta$ в модели (1) доступным (реализуемым) ОМНК, то есть применяем взвешенный МНК, в котором вместо весов $1/\sigma^2_i$ берем $1/\hat{\sigma}^2_i$\par
+Оценки $\hat{\beta}$ не являются оптимальными, но они асимптотически оптимальны\par
+
+\begin{tcolorbox}
+\textbf{Замечание:} \par
+Взвешенный МНК это обычный МНК, примененный к преобразованным данным \par 
+$(y_i, x_i^{(1)}, ... , x_i^{(k)}) \longrightarrow (\dfrac{y_i}{\hat{\sigma_i}}, \dfrac{x_i^{(1)}}{\hat{\sigma_i}}, ... , \dfrac{x_i^{(k)}}{\hat{\sigma_i}})$
+\end{tcolorbox}
+
+\textbf{Проблема:} $\hat{\sigma_i} = \sqrt{\hat{\sigma_i}^2}$\par
+Не $\hat{\sigma_i}^2$ все могут оказаться положительными\par
+\textbf{Что делать?} \par
+ - выкидывать те $i$, для которых $\hat{\sigma_i}^2 \leq 0$ \par
+\textbf{Некорректный способ, так как выбор выкидываемых наблюдений не случаен}
+
+\vspace{2mm}
+На практике пытаются использовать не аддитивную, а мультимликативную форму гетероскедастичности вида:
+$\hat{\sigma_i}^2 = exp\{\gamma_0 + \gamma_1z_i^{(1)} + ... + \gamma_pz_i^{(p)}\} = e^{\gamma_0 + Z^T_i\gamma}$
+
+\subsubsection{Двухшаговая процедура доступного ОМНК-оценивания параметров обобщенной модели (1) с экспоненциальной формой гетероскедастичности}
+\textbf{Шаг 1.}
+
+\vspace{2mm}
+1) МНК (1) $\hat{\beta}_{\text{мнк}} \Longrightarrow e$ - МНК-остатки
+
+\vspace{1mm}
+2) Постулируем форму гетероскедастичности \par
+$\sigma_i^2 = exp\{\gamma_0 + Z^T_i\gamma\}$, т.е. $ln(\sigma_i^2) = \gamma_0 + Z^T_i\gamma$ \par
+Оцениваем вспомогательную регрессию \par
+$ln(\sigma_i^2) = \gamma_0 + Z_i^T\gamma + \text{ошибка}_i$\par
+Получаем состоятельные МНК-оценки $\hat{\gamma}_0, \hat{\gamma}$, параметров $\gamma_0, \gamma$\par
+Получаем состоятельные оценки дисперсий регрессионных ошибок $\hat{\sigma_i}^2 = $, параметров $\gamma_0, \gamma$\par
+
+\vspace{1mm}
+3) Получаем окончательные оценки для $\sigma^2 = exp\{\hat{\gamma}_0 + Z^T_i\hat{\gamma} \} > 0$
+
+\vspace{2mm}
+\textbf{Шаг 2.}
+
+\vspace{2mm}
+Оцениваем $\beta$ в модели (1) доступным ОМНК (проблемы отрицательных оценок дисперсий $\sigma^2$ здесь нет) \par 
+
+\vspace{1mm}
+1. До двухшаговой процедуры: есть ли гетероскедастичность в ошибках?\par 
+2. После двухшаговой процедуры: избавились ли мы от гетероскедастичности?\par 
+
+\vspace{1mm}
+Если форма гетероскедастичности ошибок $\varepsilon_1, ... , \varepsilon_n$ исходной модели $y_i = \beta_1x_i^{(1)} + ... + \beta_kx_i^{(k)}$ оценена правильно, то в модели для преобразованных данных $\dfrac{y_i}{\sigma_i} = \dfrac{\beta_1x_i^{(1)}}{\sigma_i} + ... + \dfrac{\beta_kx_i^{(k)}}{\sigma_i} + \dfrac{\varepsilon_i}{\sigma_i}$ ошибки станут гомоскедастичными.
+
+\end{document}
