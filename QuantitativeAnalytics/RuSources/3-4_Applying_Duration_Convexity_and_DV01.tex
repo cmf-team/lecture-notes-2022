@@ -1,0 +1,140 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=3.5cm]{geometry} %Sets the page geometry
+\usepackage{graphicx} % Package for \includegraphics
+\usepackage[T2A]{fontenc} % Output font encoding for international characters
+\setlength{\parskip}{1em} % Set space when paragraphs are used
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[russian,english]{babel}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\title{APPLYING DURATION, CONVEXITY AND DV01}
+\author{Nikita Belousov}
+\date{\today}
+\begin{document}
+\maketitle
+\section{INTEREST RATE FACTOR}
+
+Как вы знаете, процентые ставки меняются, и это влияет на стоимость нашего портфеля.
+Чтобы понимать как портфель облигаций отреагирует на изменение процентных ставок, мы считаем чувствительность нашего портфеля к изменению процентных ставок.
+Процентные ставки меняются под влиянием факторов процентного риска. Факторы процентого риска являются которые являются случайными величинами, которые влияют на ставки с определенным сроком, либо на всю кривую процентных ставок.
+
+Однофакторный подход, подразумевает, что существует один фактор,
+влияющий на кривую процентных ставок. В общем случае такой подход не ограничивается на параллельные сдвиги.
+
+
+\section{DOLLAR VALUE OF A BASIS POINT}
+
+DV01 -- `dollar value of a basis point' - это \textbf{абсолютное} изменение стоимости портфеля в ответ на изменение ставки на 1 базисный пункт (при параллельном сдвиге).
+
+\[ \operatorname{DV01} = \frac{\Delta BV}{10,000 \times \Delta r}  \]
+
+\section{DV01 APPLICATION TO HEDGING}
+
+Если у нас есть портфель который мы хотим захеджировать, но там потребуется
+
+\textbf{Hedge ratio (HR)} -- величина, которая определяет отношение  позиции и инструмента хеджирования.
+
+Целью операции хеджирования является создание позиции, стоимость которой не меняется при небольших изменениях процентых ставок.
+
+\[ \frac{V_{hedging}}{V_{initial}} = HR = \frac{DV01_{initial}}{DV01_{hedging}}\beta_{yield}  \]
+
+\section{DURATION}
+
+\textbf{Duration} -- величина чувствительности стоимости облигации к ставке, измеряемае в единицах времени (годах).
+
+\textbf{Macaulay Duration} -- Средневзвешенный срок до погашения всех денежных потоков по облигации
+
+\textbf{Modified Duration} -- Улучшение дюрации Макалея, учитываюшее YTM в
+настоящий момент времени. Может применяться к облигациям со встроенным опционом.
+
+
+\[ MD = \frac{\text{Macaulay duration}}{1+ \text{market yield}} = \frac{1}{BV} \frac{\Delta BV}{\Delta r}   \]
+
+Отличие данной метрики от DV01, в том, что она описывает относительное изменение стоимости, а не абсолютное.
+
+\textbf{Effective Duration} -- Дюрация для callable/putable облигаций, которая решает проблему неточности MD для данных интрументов.
+
+\[ \text{Effective Duration} = \frac{BC_{-\Delta r} - BV_{+\Delta r}}{2 BV_0 \Delta r} \]
+
+\[DV01 = Duration \times 0.0001 \times BV\]
+
+\section{CONVEXITY}
+
+Дюрация представляет собой линейное приближение поскольку предполагается, что изменение стоимости облигации не зависит от знака изменения процентных ставок.
+
+При увеличении процентой ставки кривизна облигации начинает играть все большую роль.
+
+\textbf{Convexity} - вторая производная стоимости облигации по процентной ставке.
+
+\[ Convexity = \frac{ (BV_{-\Delta r} - BV_0) + (BV_{+\Delta r} - BV_0)}{BV_0 \times (\Delta r)^2}  \]
+
+\begin{aligned} \text{percentage price change} \approx \text{duration effect} + \text{convexity effect} = \\ [duration \times \Delta r \times 100] + [\frac{1}{2} \times convexity \times (\Delta r)^2 \times 100] \end{aligned}
+
+
+\begin{figure}[h!]
+    \includegraphics[width=0.5\columnwidth]{positive.png}
+    \caption{}\label{name1}
+\end{figure}
+
+\section{PORTFOLIO DURATION AND CONVEXITY}
+
+\textbf{Дюрация} портфеля вычисляется как взвешенная сумма отдельных облигаций
+
+\[ \text{duration of portfolio} = \sum_{j=1}^{K} w_j D_j \]
+
+\textbf{Выпуклость} портфеля облигаций вычисляется как взвешенное среднее выпуклостей отдельных облигаций
+
+\textbf{DV01} портфеля есть сумма  DV01 отдельных облигаций 
+
+\section{HEDGING USING DURATION AND CONVEXITY}
+
+Рассмотрим Интвестицию (V), Облигацию 1 ($P_1$) и Облигацию 2 ($P_2$). Нам известны их дюрация (D )и выпуклость (C). Мы хотим захеджировать нашу инвестицию используя эти облигации.
+
+При изменении процентных ставок, стоимость инструментов изменяется соответственно как:
+
+\[ \Delta V = [-V \times D_V \times \Delta r ] + [\frac{1}{2} \times V \times C_V \times (\Delta r)^2]  \]
+
+
+\[ \Delta P_1 = [-P_1 \times D_{P_1} \times \Delta r ] + [\frac{1}{2} \times P_1 \times C_{P_1} \times (\Delta r)^2]  \]
+
+
+\[ \Delta P_2 = [-P_2 \times D_{P_2} \times \Delta r ] + [\frac{1}{2} \times P_2 \times C_{P_2} \times (\Delta r)^2]  \]
+
+\begin{equation*}
+ \begin{cases}
+     -V \times D_V - P_1 \times D_{P_1} - P_2\times D_{P_2} = 0, 
+   \\
+   V \times C_V + P_1 \times C_{P_1} + P_2 \times C_{P_2} = 0
+ \end{cases}
+\end{equation*}
+
+Решение данной системы и приводит к требуемоему количеству облигаций 1 и 2.
+
+
+\section{NEGATIVE CONVEXITY}
+
+Для облигаций со встроенным опционом возможен случай, в котором выпуклость отрицательна.
+
+
+\begin{figure}[h!]
+    \includegraphics[width=1\columnwidth]{negative.png}
+    \caption{}\label{name1}
+\end{figure}
+
+\section{CONSTRUCTING A BARBELL PORTFOLIO}
+
+\textbf{Barbell strategy} -- Используется в том случае, когда инвестор считает, что процентная ставка будет иметь высокую волатильность и использует облигации с большим или маленьким сроками до погащения.
+
+\textbf{Bullet strategy} -- Достигается покупкой облигаций со средним сроком до погашения.
+
+Дюрации портфелей, составленных при помощи приведенных выше методов могут совпадать.
+
+
+
+\end{document}
+
