@@ -1,0 +1,15 @@
+\babel@toc {russian}{}
+\contentsline {section}{\numberline {1}Для чего нужен анализ секторов экономики и индустрий?}{2}{section.1}%
+\contentsline {section}{\numberline {2}Как можно сгруппировать компании на сектора, подсектора индустрии?}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}По каким принципам можно сгруппировать отрасли?}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Системы классификации отраслей}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Система классификации GICS}{5}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Защитные и циклические сектора}{6}{subsubsection.2.2.2}%
+\contentsline {section}{\numberline {3}Peer group}{6}{section.3}%
+\contentsline {section}{\numberline {4}Важные элементы анализа индустрии}{7}{section.4}%
+\contentsline {section}{\numberline {5}Анализ сил, оказывающих влияние на уровень конкуренции в данной индустрии}{9}{section.5}%
+\contentsline {section}{\numberline {6}Факторы, влияющие на степень конкуренции}{10}{section.6}%
+\contentsline {section}{\numberline {7}Модель жизненного цикла индустрии}{11}{section.7}%
+\contentsline {section}{\numberline {8}От теории к практике}{12}{section.8}%
+\contentsline {section}{\numberline {9}Группы факторов, влияющих на анализ индустрии в целом}{14}{section.9}%
+\contentsline {section}{\numberline {10}Основные моменты в анализе компании и оценке ее акций}{14}{section.10}%
