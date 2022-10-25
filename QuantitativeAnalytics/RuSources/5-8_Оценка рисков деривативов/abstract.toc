@@ -1,0 +1,11 @@
+\babel@toc {russian}{}
+\contentsline {section}{\numberline {1}FX forwards}{2}{section.1}%
+\contentsline {section}{\numberline {2}Валютный опцион}{2}{section.2}%
+\contentsline {section}{\numberline {3}Процентный своп}{2}{section.3}%
+\contentsline {section}{\numberline {4}Cross-currency Swap}{2}{section.4}%
+\contentsline {section}{\numberline {5}Подходы к оценке рисков деривативов. Оценка VaR}{3}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Delta-Normal}{3}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Grid-search}{3}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Monte-Carlo}{3}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Вывод}{4}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Стресс-тестирование}{4}{section.6}%
