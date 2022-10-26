@@ -1,0 +1,163 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[russian]{babel}
+\usepackage{tcolorbox}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fixltx2e}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Quantitative Analytics.\\
+Lectures. Week 1. \\
+The time value of money. Временная стоимость денег.}
+\author{Chistyakov Artem}
+
+\begin{document}
+\maketitle
+
+\textbf{
+Lecture Topics
+}
+
+\begin{enumerate}
+\item Interest rate and how it's formed.
+\item SAR \& EAR.
+\item FV, PV and FoC.
+\item Annuities and perpetuity.
+\item TVM problems.
+\end{enumerate}
+
+
+
+\section{Dictionary, Definitions, Abbreviations}
+
+\subsection{Dictionary}
+\begin{itemize}
+    \item IR - Interest rate - процентная ставка.
+    \item Compounding - платежи (idk)
+\end{itemize}
+
+\subsection{Definitions and Abbreviations}
+\begin{itemize}
+    \item SAR - Stated annual rate.
+    \item EAR - Effective annual rate.
+    \item FoC - Frequency of Compounding
+    \item PMT - Payment
+    \item r - Interest rate (at the moment). 
+\end{itemize}
+
+
+\section{Interpretation of the Interest rate}
+
+\begin{itemize}
+\item \textbf{Equilibrium rate of return}
+\\
+Minimum rate of return an investor must receive in order to accept the investment.
+
+\item \textbf{The discount rate}
+\\
+Rate that must be applied to a cash flow to determine it's present value.
+
+\item \textbf{The opportunity cost}
+\\
+Value that investor forgo (loses) by investing.
+
+\end{itemize}
+
+
+
+\section{How the Interest rate is formed}
+\textbf{Interest rate =} \\
+\textbf{Real risk-free rate} (Reflects the current vs future consumption)\\
++ \\
+\textbf{Expected inflation premium} (Money costs less over time in a real terms)\\
++ \\
+\textbf{Default risk premium} (Compensation for possibility and probability that the borrower will default) \\
++ \\
+\textbf{Liquidity premium} (If financial product has a low liquidity - In case if you want to sell it quickly - you will be forced to take losses by selling it under the market price)\\
++ \\
+\textbf{Maturity premium} (Long term debts are more sensitive to the future IR falls, if you expect such).
+
+\section{SAR and EAR}
+\textbf{SAR - Stated annual rate.} Rate which is stated in the documents.\\
+\textbf{EAR - Effective annual rate.} Rate which an investor really gets.\\
+
+\textit{SAR does not account for infra-year compounding while EAR does.}
+
+\\
+
+\textit{EAR \geq SAR}
+
+\section{FV and PV}
+\textbf{PV - Present Value.}\\
+\textbf{FV - Future Value.}\\
+\textbf{FV_x} \textbf{ - Future Value after x compounding periods (years by default)}\\
+
+\[FV_x = PV * (1 + SAR)^x\]
+
+\section{FV depends on FoC}
+
+\textbf{Frequency of Compounding (FoC)} - how many times during the year the transaction happens.
+
+\[FV_x = PV * (1 + \frac{SAR}{FoC})^{x*FoC} \]
+
+
+\textnormal{and reversed}
+
+\[PV = \frac{FV_x}{(1 + \frac{SAR}{FoQ})^{x*FoQ} } \]
+
+
+\section{Annuities}
+\textnormal{\textbf{Annuity is a list of \textit{identical} cash flows}}\\
+
+\textnormal{Annuities can be}
+\begin{enumerate}
+    \item \textnormal{Finite}
+    \begin{enumerate}
+        \item \textnormal{\textbf{Ordinary annuity} - Cash flows occur \textbf{\textit{at the end}} of each \textbf{\textit{compounding period}}.}
+        \item \textnormal{\textbf{Annuity due} - Cash flows occur \textbf{\textit{at the beginning}} of each \textbf{\textit{compounding period}}.}
+    \end{enumerate}
+    \item \textnormal{Infinite}
+    \begin{enumerate}
+    \item \textnormal{\textbf{Perpetuity.}}
+    \end{enumerate}
+    
+\end{enumerate}
+
+
+\section{PV of an annuity}
+
+
+\[PV = PVofPMT_1 + PVofPMT_2 + \ldots + PVofPMT_n = \\
+\frac{PMT}{1 + r} + \frac{PMT}{(1 + r)^2} + \ldots + \frac{PMT}{(1 + r)^n}\]
+\\
+\textnormal{We have a geometric sequence with}
+
+\[b = \frac{PMT}{1 + r}\]
+\\
+\textnormal{and}
+\\
+\[a = \frac{1}{1 + r}\]
+\\
+\textnormal{So the sum equals to}
+\\
+\[S = b * \frac{q^n - 1}{q - 1}\]
+\\
+\textnormal{substitute b and q}
+\\
+\[PV\textsubscript{\textnormal{annuity}} = PMT * \frac{(1 + r)^n - 1}{r * (1 + r)^n}\]
+
+
+\section{PV of a perpetuity}
+\[PV\textsubscript{\textnormal{perpetuiry}} = \lim_{n \to +\infty} PV\textsubscript{\textnormal{annuity}} =  \lim_{n \to +\infty} PMT * \frac{(1 + r)^n - 1}{r * (1 + r)^n} = \frac{PMT}{r}\]
+
+\end{document}
