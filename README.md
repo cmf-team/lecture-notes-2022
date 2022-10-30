@@ -19,3 +19,5 @@ LaTeX source code and all attachments must be placed in separate directory insid
 <br/>
 
 Initiated by @ChistyakovArtem and maintained by @ChistyakovArtem and contributors. 
+
+If you have any owner rights issues - contact me @ChistyakovArtem
