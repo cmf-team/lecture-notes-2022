@@ -20,4 +20,4 @@ LaTeX source code and all attachments must be placed in separate directory insid
 
 Initiated by @ChistyakovArtem and maintained by @ChistyakovArtem and contributors. 
 
-If you have any owner rights issues - contact me @ChistyakovArtem
+If you have any owner rights issues - contact me @ChistyakovArtem via email (artemchistyakov03@gmail.com)
